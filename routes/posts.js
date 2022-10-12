@@ -1,5 +1,5 @@
 const express = require("express");
-const { Post } = require("../models");
+const { Posts } = require("../models");
 const Joi = require("joi");
 const authMiddleware = require("../middlewares/auth-middlewares");
 const router = express.Router();
@@ -15,7 +15,7 @@ router.post("/posts", authMiddleware, async (req, res) => {
     const { title, content } = await postSchema.validateAsync(req.body);
     const { user } = res.locals;
     let likes = 0;
-    await Post.create({
+    await Posts.create({
       userId: user.userId,
       nickname: user.nickname,
       title,
@@ -32,7 +32,7 @@ router.post("/posts", authMiddleware, async (req, res) => {
 // 목록조회
 router.get("/posts", async (req, res, next) => {
   try {
-    const posts = await Post.findAll({
+    const posts = await Posts.findAll({
       attributes: {
         exclude: ["content"],
       },
@@ -51,7 +51,7 @@ router.get("/posts/:postId", async (req, res, next) => {
   try {
     const { postId } = req.params;
 
-    const post = await Post.findOne({
+    const post = await Posts.findOne({
       where: {
         postId,
       },
@@ -63,6 +63,12 @@ router.get("/posts/:postId", async (req, res, next) => {
   }
 });
 
+
+const postPutSchema = Joi.object({
+  title: Joi.string().required(),
+  content: Joi.string().required(),
+});
+
 // 게시물 수정
 router.put("/posts/:postId", authMiddleware, async (req, res, next) => {
   try {
@@ -70,7 +76,7 @@ router.put("/posts/:postId", authMiddleware, async (req, res, next) => {
     const { title, content } = await postPutSchema.validateAsync(req.body);
 
     const { user } = res.locals;
-    const post = await Post.findOne({
+    const post = await Posts.findOne({
       where: {
         postId,
       },
@@ -102,7 +108,7 @@ router.delete("/posts/:postId", authMiddleware, async (req, res, next) => {
   try {
     const { postId } = req.params;
     const { user } = res.locals;
-    const post = await Post.findOne({
+    const post = await Posts.findOne({
       where: {
         postId,
       },

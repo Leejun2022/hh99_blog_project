@@ -5,7 +5,7 @@ module.exports = {
    * @param {import("sequelize")} Sequelize - Sequelize
    * **/
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('comments', {
+    await queryInterface.createTable('Comments', {
       commentId: {
         allowNull: false,
         autoIncrement: true,

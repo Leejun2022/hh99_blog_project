@@ -43,6 +43,9 @@ module.exports = {
         type: Sequelize.DataTypes.DATE,
         defaultValue: Sequelize.DataTypes.NOW,
       },
+      likes: {
+        type: Sequelize.STRING,
+      },
     });
   },
   /**

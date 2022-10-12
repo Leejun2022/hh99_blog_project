@@ -1,6 +1,6 @@
 // reqiures
 const express = require("express");
-const { Comment } = require("../models");
+const { Comments } = require("../models");
 // const Joi = require("joi");
 const authMiddleware = require("../middlewares/auth-middlewares");
 const router = express.Router();
@@ -19,29 +19,24 @@ router.post("/comments/:postId", authMiddleware, async (req, res, next) => {
   try {
     // postId 파라미터 받아오기
     const { postId } = req.params;
-
     // body 정보 받아오기
     const { comment } = req.body;
-    // const { comment, createdAt, updatedAt } = await commentSchema.validateAsync(
-    //   req.body
-    // );
-
     // 토큰 정보 받아오기
     const { user } = res.locals;
-
     // 댓글내용이 없을 시 에러 발생
     if (!comment.length) {
       res.status(400).send({ errorMessage: "댓글 내용을 입력해주세요." });
       return;
     }
-    await Comment.create({
+    await Comments.create({
       postId,
       userId: user.userId,
       nickname: user.nickname,
       comment,
     });
-    res.send({ message: "댓글을 작성하였습니다." });
+    res.status(201).send({ message: "댓글을 작성하였습니다." });
   } catch (err) {
+    console.error(err)
     res.status(400).send({ errorMessage: "요청에 실패하였습니다." });
   }
 });
@@ -52,7 +47,7 @@ router.post("/comments/:postId", authMiddleware, async (req, res, next) => {
 router.get("/comments/:postId", async (req, res, next) => {
   try {
     const { postId } = req.params;
-    const comments = await Comment.findAll({
+    const comments = await Comments.findAll({
       where: {
         postId,
       },
@@ -75,7 +70,7 @@ router.put("/comments/:commentId", authMiddleware, async (req, res, next) => {
     const { user } = res.locals;
     const { comment } = req.body;
 
-    const comments = await Comment.findOne({
+    const comments = await Comments.findOne({
       where: {
         commentId,
       },
@@ -118,7 +113,7 @@ router.delete(
     try {
       const { commentId } = req.params;
       const { user } = res.locals;
-      const comments = await Comment.findOne({
+      const comments = await Comments.findOne({
         where: {
           commentId,
         },

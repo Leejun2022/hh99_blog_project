@@ -50,6 +50,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
       },
+      likes: DataTypes.STRING,
     },
     {
       sequelize,
