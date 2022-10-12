@@ -7,8 +7,8 @@ const PORT = 3011;
 const app = express();
 const router = express.Router();
 
-const swaggerUi = require('swagger-ui-express')
-const swaggerFile = require('./swagger-output')
+// Swagger
+const { swaggerUi, specs } = require("./swagger/swagger");
 
 
 // routers
@@ -27,7 +27,7 @@ router.get("/", (req, res) => {
 });
 
 
-app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.listen(PORT, () => {
   console.log(PORT, '서버를 실행 중 입니다.');
