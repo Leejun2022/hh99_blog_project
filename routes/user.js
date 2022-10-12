@@ -1,6 +1,6 @@
 // reqiures
 const express = require("express");
-const { User } = require("../models");
+const { Users } = require("../models");
 const Joi = require("joi");
 const { Op } = require("sequelize");
 const jwt = require("jsonwebtoken");
@@ -31,7 +31,7 @@ router.post("/signup", async (req, res) => {
     return;
   }
 
-  const existUsers = await User.findAll({
+  const existUsers = await Users.findAll({
     where: {
       [Op.or]: [{ nickname }],
     },
@@ -43,7 +43,7 @@ router.post("/signup", async (req, res) => {
     return;
   }
 
-  await User.create({ nickname, password });
+  await Users.create({ nickname, password });
 
   res.status(201).send({ message: "회원 가입에 성공하였습니다." });
 });
@@ -58,7 +58,7 @@ router.post("/login", async (req, res) => {
   try {
     const { nickname, password } = await postAuthSchema.validateAsync(req.body);
 
-    const user = await User.findOne({ where: { nickname, password } });
+    const user = await Users.findOne({ where: { nickname, password } });
 
     if (!user) {
       res.status(400).send({

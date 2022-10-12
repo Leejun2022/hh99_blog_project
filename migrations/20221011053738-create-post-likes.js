@@ -30,6 +30,16 @@ module.exports = {
         },
         onDelete: "cascade",
       },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DataTypes.DATE,
+        defaultValue: Sequelize.DataTypes.NOW,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DataTypes.DATE,
+        defaultValue: Sequelize.DataTypes.NOW,
+      },
     });
   },
   /**
@@ -37,6 +47,6 @@ module.exports = {
    * @param {import("sequelize")} Sequelize - Sequelize
    * **/
    async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('NaverCafeLikes');
+    await queryInterface.dropTable('postLikes');
   },
 };

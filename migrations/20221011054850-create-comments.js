@@ -55,6 +55,6 @@ module.exports = {
    * @param {import("sequelize")} Sequelize - Sequelize
    * **/
    async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('NaverCafeLikes');
+    await queryInterface.dropTable('Comments');
   },
 };

@@ -14,7 +14,7 @@ router.post("/posts", authMiddleware, async (req, res) => {
   try {
     const { title, content } = await postSchema.validateAsync(req.body);
     const { user } = res.locals;
-    let likes = 1;
+    let likes = 0;
     await Posts.create({
       userId: user.userId,
       nickname: user.nickname,

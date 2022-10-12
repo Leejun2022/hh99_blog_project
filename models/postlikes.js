@@ -38,6 +38,16 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: "cascade",
     },
+    createdAt: {
+      allowNull: false,
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
+      allowNull: false,
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
   }, {
     sequelize,
     modelName: 'postLikes',
