@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { User } = require("../models");
+const { Users } = require("../models");
 
 module.exports = (req, res, next) => {
   try {
@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
     }
     const { userId } = jwt.verify(authToken, "leejun-secret-key");
     
-    User.findOne({
+    Users.findOne({
       where: {
         userId,
       },
